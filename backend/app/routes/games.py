@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from ..db import get_db
@@ -30,7 +30,7 @@ def ingest_game(payload: GameIn, db: Session = Depends(get_db)):
 
 
 @router.get("/games/recent", response_model=list[GameSummaryOut])
-def recent_games(limit: int = 20, db: Session = Depends(get_db)):
+def recent_games(limit: int = Query(default=20, ge=1, le=100), db: Session = Depends(get_db)):
     return get_recent_games(db, limit=limit)
 
 

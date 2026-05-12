@@ -13,10 +13,22 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 })
 
 async function postCapture(payload) {
-  const response = await fetch(`${API_BASE}/health`)
-  if (!response.ok) {
-    throw new Error('Backend is not reachable')
+  if (!payload?.parsedGame) {
+    return { accepted: false, reason: 'No completed game payload found' }
   }
 
-  return { accepted: true, previewOnly: true, payload }
+  const response = await fetch(`${API_BASE}/api/ingest/game`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload.parsedGame),
+  })
+
+  if (!response.ok) {
+    const text = await response.text()
+    throw new Error(`Backend ingest failed: ${response.status} ${text}`)
+  }
+
+  return response.json()
 }

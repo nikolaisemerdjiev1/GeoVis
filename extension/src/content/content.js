@@ -1,14 +1,18 @@
-import { extractCompletedGameData } from '../parser/extractGameData.js'
-import { saveLastCapture } from '../storage/localCache.js'
-
 async function init() {
-  const capture = extractCompletedGameData()
+  const capture = window.GeoVISParser.extractCompletedGameData()
 
   if (!capture.isLikelyResultsPage) {
     return
   }
 
-  await saveLastCapture(capture)
+  await window.GeoVISStorage.saveLastCapture(capture)
+
+  if (!capture.parsedGame) {
+    console.info('GeoVIS found a results page but could not parse a completed game.', capture)
+    return
+  }
+
+  console.info('GeoVIS parsed completed game result.', capture.parsedGame)
 
   chrome.runtime.sendMessage(
     {

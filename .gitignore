@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *.sqlite3
+*.sqlite3-journal
 *.db
 .pytest_cache/
 .mypy_cache/
@@ -25,3 +26,6 @@ Thumbs.db
 # Coverage
 .coverage
 htmlcov/
+
+# Runtime data
+backend/data/

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
@@ -51,6 +52,19 @@ def create_game(db: Session, payload: schemas.GameIn) -> models.Game:
         )
         db.add(round_row)
 
-    db.commit()
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        if payload.game_id:
+            existing = (
+                db.query(models.Game)
+                .filter(models.Game.external_game_id == payload.game_id)
+                .first()
+            )
+            if existing:
+                return existing
+        raise
+
     db.refresh(game)
     return game
