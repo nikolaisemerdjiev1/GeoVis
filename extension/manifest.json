@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "GeoVIS",
+  "version": "0.1.0",
+  "description": "Post-game GeoGuessr analytics capture for personal improvement.",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": [
+    "https://www.geoguessr.com/*",
+    "http://127.0.0.1:8000/*",
+    "http://localhost:8000/*"
+  ],
+  "background": {
+    "service_worker": "src/background/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.geoguessr.com/*"],
+      "js": ["src/content/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "GeoVIS"
+  }
+}

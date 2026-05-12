@@ -1,0 +1,45 @@
+{
+  "external_game_id": "sample-game-001",
+  "played_at": "2026-05-12T20:00:00Z",
+  "mode": "classic",
+  "map_name": "World",
+  "total_score": 18342,
+  "total_distance_km": 3241.7,
+  "result_text": "Completed",
+  "rating_before": 812,
+  "rating_after": 826,
+  "rounds": [
+    {
+      "round_number": 1,
+      "actual_lat": 48.8566,
+      "actual_lng": 2.3522,
+      "guess_lat": 50.8503,
+      "guess_lng": 4.3517,
+      "actual_country": "France",
+      "guessed_country": "Belgium",
+      "actual_region": "Île-de-France",
+      "guessed_region": "Brussels-Capital",
+      "distance_km": 264.0,
+      "score": 4201,
+      "guess_time_sec": 42.5,
+      "movement_allowed": true,
+      "timer_sec": 60
+    },
+    {
+      "round_number": 2,
+      "actual_lat": -34.6037,
+      "actual_lng": -58.3816,
+      "guess_lat": -33.4489,
+      "guess_lng": -70.6693,
+      "actual_country": "Argentina",
+      "guessed_country": "Chile",
+      "actual_region": "Buenos Aires",
+      "guessed_region": "Santiago Metropolitan",
+      "distance_km": 1137.0,
+      "score": 2831,
+      "guess_time_sec": 59.1,
+      "movement_allowed": true,
+      "timer_sec": 60
+    }
+  ]
+}
