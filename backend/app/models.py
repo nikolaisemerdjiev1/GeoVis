@@ -27,6 +27,21 @@ class Game(Base):
     rounds: Mapped[list[Round]] = relationship(
         "Round", back_populates="game", cascade="all, delete-orphan"
     )
+    import_events: Mapped[list[ImportEvent]] = relationship("ImportEvent", back_populates="game")
+
+
+class ImportEvent(Base):
+    __tablename__ = "import_events"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    external_game_id: Mapped[str | None] = mapped_column(String(128), index=True, nullable=True)
+    game_id: Mapped[int | None] = mapped_column(ForeignKey("games.id", ondelete="SET NULL"), index=True, nullable=True)
+    status: Mapped[str] = mapped_column(String(32), index=True)
+    source: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    message: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
+
+    game: Mapped[Game | None] = relationship("Game", back_populates="import_events")
 
 
 class Round(Base):

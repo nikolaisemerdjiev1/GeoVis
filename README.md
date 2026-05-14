@@ -103,9 +103,20 @@ Dashboard runs at `http://127.0.0.1:5173` by default.
 - `GET /health`
 - `POST /api/ingest/game`
 - `GET /api/games/recent`
+- `GET /api/imports/recent`
+- `GET /api/rounds/review`
+- `PUT /api/rounds/{round_id}/note`
+- `GET /api/rounds/review/options`
+- `GET /api/training/review-queue`
+- `GET /api/export/sqlite`
 - `GET /api/analytics/country-performance`
+- `GET /api/analytics/region-performance`
 - `GET /api/analytics/confusion-matrix`
+- `GET /api/analytics/region-confusion-matrix`
 - `GET /api/analytics/score-trend`
+
+Fixture payloads for repeatable completed-game ingest checks live in `backend/app/fixtures/`.
+Region enrichment currently supports US states, Canadian provinces/territories, Brazilian states, Australian states/territories, and Japanese prefectures.
 
 ## Suggested next milestones
 

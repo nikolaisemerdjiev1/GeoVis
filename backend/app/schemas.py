@@ -4,6 +4,9 @@ from datetime import datetime
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
+from .services.country_normalization import normalize_country
+from .services.region_enrichment import clean_region, normalize_region
+
 
 class RoundIn(BaseModel):
     round_number: int = Field(ge=1, le=100)
@@ -25,6 +28,22 @@ class RoundIn(BaseModel):
     def has_result_signal(self) -> "RoundIn":
         if self.score is None and self.distance_km is None and self.guess_lat is None and self.guess_lng is None:
             raise ValueError("round must include a completed-result signal")
+        return self
+
+    @field_validator("actual_country", "guessed_country", "actual_region", "guessed_region")
+    @classmethod
+    def clean_location_strings(cls, value: str | None) -> str | None:
+        return clean_region(value)
+
+    @field_validator("actual_country", "guessed_country")
+    @classmethod
+    def normalize_country_name(cls, value: str | None) -> str | None:
+        return normalize_country(value)
+
+    @model_validator(mode="after")
+    def normalize_region_names(self) -> "RoundIn":
+        self.actual_region = normalize_region(self.actual_country, self.actual_region)
+        self.guessed_region = normalize_region(self.guessed_country, self.guessed_region)
         return self
 
 
@@ -76,6 +95,24 @@ class CountryPerformanceOut(BaseModel):
     correct_country_rate: float | None
 
 
+class RegionPerformanceOut(BaseModel):
+    country: str
+    region: str
+    rounds_played: int
+    avg_score: float | None
+    median_distance_km: float | None
+    avg_distance_km: float | None
+    correct_region_rate: float | None
+
+
+class RegionConfusionEntryOut(BaseModel):
+    actual_country: str
+    actual_region: str
+    guessed_country: str | None
+    guessed_region: str
+    count: int
+
+
 class ConfusionEntryOut(BaseModel):
     actual_country: str
     guessed_country: str
@@ -87,3 +124,86 @@ class ScoreTrendEntryOut(BaseModel):
     total_score: int | None
     map_name: str | None
     mode: str | None
+
+
+class ImportEventOut(BaseModel):
+    id: int
+    external_game_id: str | None
+    game_id: int | None
+    status: str
+    source: str | None
+    message: str | None
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class RoundNoteIn(BaseModel):
+    mistake_type: str | None = Field(default=None, max_length=128)
+    manual_notes: str | None = Field(default=None, max_length=5000)
+    tags: list[str] = Field(default_factory=list, max_length=20)
+
+    @field_validator("mistake_type", "manual_notes")
+    @classmethod
+    def clean_note_text(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        value = value.strip()
+        return value or None
+
+    @field_validator("tags")
+    @classmethod
+    def clean_tags(cls, values: list[str]) -> list[str]:
+        cleaned: list[str] = []
+        seen: set[str] = set()
+        for value in values:
+            tag = " ".join(value.strip().lower().split())
+            if not tag or tag in seen:
+                continue
+            cleaned.append(tag)
+            seen.add(tag)
+        return cleaned
+
+
+class RoundReviewOut(BaseModel):
+    id: int
+    game_id: int
+    external_game_id: str | None
+    played_at: datetime
+    map_name: str | None
+    mode: str | None
+    round_number: int
+    actual_country: str | None
+    guessed_country: str | None
+    actual_region: str | None
+    guessed_region: str | None
+    distance_km: float | None
+    score: int | None
+    mistake_type: str | None
+    manual_notes: str | None
+    tags: list[str]
+    reviewed: bool
+
+
+class ReviewOptionOut(BaseModel):
+    mistake_types: list[str]
+    tags: list[str]
+
+
+class PracticeRecommendationOut(BaseModel):
+    target_type: str
+    country: str | None = None
+    region: str | None = None
+    priority_score: float
+    rounds_played: int
+    avg_score: float | None
+    recent_misses: int
+    confusion_count: int
+    recency_weight: float
+    explanation: str
+
+
+class ReviewQueueOut(BaseModel):
+    recent_misses: list[RoundReviewOut]
+    recurring_confusions: list[RoundReviewOut]
+    tagged_rounds: list[RoundReviewOut]

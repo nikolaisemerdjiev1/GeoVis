@@ -1,0 +1,37 @@
+{
+  "external_game_id": "fixture-us-city-002",
+  "played_at": "2026-05-12T21:30:00Z",
+  "mode": "standard",
+  "map_name": "United States",
+  "total_score": 23650,
+  "total_distance_km": 312.7,
+  "result_text": "finished",
+  "rounds": [
+    {
+      "round_number": 1,
+      "actual_lat": 40.7128,
+      "actual_lng": -74.006,
+      "guess_lat": 40.7306,
+      "guess_lng": -73.9352,
+      "actual_country": "US",
+      "guessed_country": "USA",
+      "actual_region": "New York",
+      "guessed_region": "New York",
+      "distance_km": 6.3,
+      "score": 4980
+    },
+    {
+      "round_number": 2,
+      "actual_lat": 47.6062,
+      "actual_lng": -122.3321,
+      "guess_lat": 45.5152,
+      "guess_lng": -122.6784,
+      "actual_country": "United States",
+      "guessed_country": "US",
+      "actual_region": "Washington",
+      "guessed_region": "Oregon",
+      "distance_km": 234.2,
+      "score": 4210
+    }
+  ]
+}

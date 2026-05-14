@@ -6,7 +6,31 @@ from sqlalchemy.orm import Session
 from .. import models, schemas
 
 
-def create_game(db: Session, payload: schemas.GameIn) -> models.Game:
+def log_import_event(
+    db: Session,
+    *,
+    external_game_id: str | None,
+    status: str,
+    source: str = "extension",
+    message: str | None = None,
+    game_id: int | None = None,
+    commit: bool = True,
+) -> models.ImportEvent:
+    event = models.ImportEvent(
+        external_game_id=external_game_id,
+        game_id=game_id,
+        status=status,
+        source=source,
+        message=message,
+    )
+    db.add(event)
+    if commit:
+        db.commit()
+        db.refresh(event)
+    return event
+
+
+def create_game(db: Session, payload: schemas.GameIn) -> tuple[models.Game, str]:
     existing = None
     if payload.game_id:
         existing = (
@@ -15,7 +39,14 @@ def create_game(db: Session, payload: schemas.GameIn) -> models.Game:
             .first()
         )
     if existing:
-        return existing
+        log_import_event(
+            db,
+            external_game_id=payload.game_id,
+            status="duplicate",
+            message="Game already imported",
+            game_id=existing.id,
+        )
+        return existing, "duplicate"
 
     game = models.Game(
         external_game_id=payload.game_id,
@@ -63,8 +94,40 @@ def create_game(db: Session, payload: schemas.GameIn) -> models.Game:
                 .first()
             )
             if existing:
-                return existing
+                log_import_event(
+                    db,
+                    external_game_id=payload.game_id,
+                    status="duplicate",
+                    message="Game already imported",
+                    game_id=existing.id,
+                )
+                return existing, "duplicate"
+        raise
+    except Exception as exc:
+        db.rollback()
+        log_import_event(
+            db,
+            external_game_id=payload.game_id,
+            status="error",
+            message=str(exc),
+        )
         raise
 
     db.refresh(game)
-    return game
+    log_import_event(
+        db,
+        external_game_id=payload.game_id,
+        status="success",
+        message=f"Imported {len(payload.rounds)} rounds",
+        game_id=game.id,
+    )
+    return game, "success"
+
+
+def get_recent_import_events(db: Session, limit: int = 20) -> list[models.ImportEvent]:
+    return (
+        db.query(models.ImportEvent)
+        .order_by(models.ImportEvent.created_at.desc())
+        .limit(limit)
+        .all()
+    )

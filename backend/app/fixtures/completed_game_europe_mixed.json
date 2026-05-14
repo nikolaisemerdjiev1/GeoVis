@@ -1,0 +1,33 @@
+{
+  "external_game_id": "fixture-europe-mixed-003",
+  "played_at": "2026-05-12T21:45:00Z",
+  "mode": "standard",
+  "map_name": "European Union",
+  "total_score": 19870,
+  "total_distance_km": 1420.5,
+  "result_text": "completed",
+  "rounds": [
+    {
+      "round_number": 1,
+      "actual_lat": 52.52,
+      "actual_lng": 13.405,
+      "guess_lat": 50.0755,
+      "guess_lng": 14.4378,
+      "actual_country": "DE",
+      "guessed_country": "CZ",
+      "distance_km": 280.6,
+      "score": 4388
+    },
+    {
+      "round_number": 2,
+      "actual_lat": 59.3293,
+      "actual_lng": 18.0686,
+      "guess_lat": 60.1699,
+      "guess_lng": 24.9384,
+      "actual_country": "SE",
+      "guessed_country": "FI",
+      "distance_km": 397.5,
+      "score": 4102
+    }
+  ]
+}

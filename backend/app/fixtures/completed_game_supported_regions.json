@@ -1,0 +1,76 @@
+{
+  "external_game_id": "fixture-supported-regions-005",
+  "played_at": "2026-05-12T22:15:00Z",
+  "mode": "standard",
+  "map_name": "Supported Regions Mix",
+  "total_score": 22340,
+  "total_distance_km": 906.4,
+  "result_text": "finished",
+  "rounds": [
+    {
+      "round_number": 1,
+      "actual_lat": 34.0522,
+      "actual_lng": -118.2437,
+      "guess_lat": 36.1699,
+      "guess_lng": -115.1398,
+      "actual_country": "US",
+      "guessed_country": "US",
+      "actual_region": "CA",
+      "guessed_region": "NV",
+      "distance_km": 368.2,
+      "score": 4210
+    },
+    {
+      "round_number": 2,
+      "actual_lat": 43.6532,
+      "actual_lng": -79.3832,
+      "guess_lat": 45.5017,
+      "guess_lng": -73.5673,
+      "actual_country": "CA",
+      "guessed_country": "Canada",
+      "actual_region": "ON",
+      "guessed_region": "QC",
+      "distance_km": 503.1,
+      "score": 3988
+    },
+    {
+      "round_number": 3,
+      "actual_lat": -23.5505,
+      "actual_lng": -46.6333,
+      "guess_lat": -22.9068,
+      "guess_lng": -43.1729,
+      "actual_country": "BR",
+      "guessed_country": "Brazil",
+      "actual_region": "SP",
+      "guessed_region": "RJ",
+      "distance_km": 360.4,
+      "score": 4199
+    },
+    {
+      "round_number": 4,
+      "actual_lat": -37.8136,
+      "actual_lng": 144.9631,
+      "guess_lat": -33.8688,
+      "guess_lng": 151.2093,
+      "actual_country": "AU",
+      "guessed_country": "AU",
+      "actual_region": "VIC",
+      "guessed_region": "NSW",
+      "distance_km": 713.1,
+      "score": 3980
+    },
+    {
+      "round_number": 5,
+      "actual_lat": 35.6762,
+      "actual_lng": 139.6503,
+      "guess_lat": 35.0116,
+      "guess_lng": 135.7681,
+      "actual_country": "JP",
+      "guessed_country": "Japan",
+      "actual_region": "Tokyo",
+      "guessed_region": "Kyoto",
+      "distance_km": 371.6,
+      "score": 3963
+    }
+  ]
+}

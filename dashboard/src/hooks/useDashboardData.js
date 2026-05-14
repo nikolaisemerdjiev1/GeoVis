@@ -7,19 +7,43 @@ export function useDashboardData() {
     error: null,
     health: null,
     recentGames: [],
+    recentImports: [],
+    roundReviews: [],
+    reviewOptions: { mistake_types: [], tags: [] },
+    reviewQueue: { recent_misses: [], recurring_confusions: [], tagged_rounds: [] },
     countryPerformance: [],
+    regionPerformance: [],
     confusionMatrix: [],
+    regionConfusionMatrix: [],
     practicePriorities: [],
   })
 
   useEffect(() => {
     async function load() {
       try {
-        const [health, recentGames, countryPerformance, confusionMatrix, practicePriorities] = await Promise.all([
+        const [
+          health,
+          recentGames,
+          recentImports,
+          roundReviews,
+          reviewOptions,
+          reviewQueue,
+          countryPerformance,
+          regionPerformance,
+          confusionMatrix,
+          regionConfusionMatrix,
+          practicePriorities,
+        ] = await Promise.all([
           api.health(),
           api.recentGames(),
+          api.recentImports(),
+          api.roundReviews(),
+          api.reviewOptions(),
+          api.reviewQueue(),
           api.countryPerformance(),
+          api.regionPerformance(),
           api.confusionMatrix(),
+          api.regionConfusionMatrix(),
           api.practicePriorities(),
         ])
 
@@ -28,8 +52,14 @@ export function useDashboardData() {
           error: null,
           health,
           recentGames,
+          recentImports,
+          roundReviews,
+          reviewOptions,
+          reviewQueue,
           countryPerformance,
+          regionPerformance,
           confusionMatrix,
+          regionConfusionMatrix,
           practicePriorities,
         })
       } catch (error) {

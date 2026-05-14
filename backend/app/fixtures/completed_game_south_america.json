@@ -1,0 +1,33 @@
+{
+  "external_game_id": "fixture-south-america-004",
+  "played_at": "2026-05-12T22:00:00Z",
+  "mode": "standard",
+  "map_name": "South America",
+  "total_score": 17420,
+  "total_distance_km": 2510.9,
+  "result_text": "finished",
+  "rounds": [
+    {
+      "round_number": 1,
+      "actual_lat": -34.6037,
+      "actual_lng": -58.3816,
+      "guess_lat": -33.4489,
+      "guess_lng": -70.6693,
+      "actual_country": "AR",
+      "guessed_country": "CL",
+      "distance_km": 1137.0,
+      "score": 2831
+    },
+    {
+      "round_number": 2,
+      "actual_lat": -12.0464,
+      "actual_lng": -77.0428,
+      "guess_lat": -16.5,
+      "guess_lng": -68.15,
+      "actual_country": "PE",
+      "guessed_country": "BO",
+      "distance_km": 1084.8,
+      "score": 3020
+    }
+  ]
+}
